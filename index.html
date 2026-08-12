@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valkyria Squad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1F1533; --panel: #2E2050; --line: #423277;
+    --gold: #C9A24B; --gold-soft: #E4C878; --text: #E8DFC8; --text-dim: #B3A6CE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background: radial-gradient(circle at 15% 0%, #2A1E48 0%, var(--bg) 55%);
+    color: var(--text); font-family:'Manrope',sans-serif; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;
+    padding: 40px;
+  }
+  h1{ font-family:'Cinzel',serif; color: var(--gold-soft); font-size: clamp(32px,5vw,52px); margin-bottom:10px; }
+  p{ color: var(--text-dim); max-width:480px; margin-bottom:28px; line-height:1.6; }
+  a.btn{
+    background: var(--gold); color:#241833; text-decoration:none; font-weight:700;
+    padding: 14px 28px; border-radius:10px; font-size:14px;
+  }
+  .note{ margin-top:40px; font-size:12px; color: var(--text-dim); max-width:420px; }
+</style>
+</head>
+<body>
+  <h1>🛡️ Valkyria Squad</h1>
+  <p>Panel de performance del equipo. El resumen agregado del squad (KPIs generales, ranking, semáforo por persona) está en construcción — por ahora entrá al detalle de cada BDR.</p>
+  <a class="btn" href="equipo.html">Ver equipo →</a>
+  <div class="note">Próxima entrega: vista general con métricas del squad completo en esta misma página.</div>
+</body>
+</html>
