@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valkyria Squad — Equipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1F1533; --panel: #2E2050; --line: #423277;
+    --gold: #C9A24B; --gold-soft: #E4C878; --text: #E8DFC8; --text-dim: #B3A6CE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background: radial-gradient(circle at 15% 0%, #2A1E48 0%, var(--bg) 55%);
+    color: var(--text); font-family:'Manrope',sans-serif; min-height:100vh; padding: 40px 6vw;
+  }
+  h1{ font-family:'Cinzel',serif; color: var(--gold-soft); font-size: clamp(28px,4vw,42px); margin-bottom:6px; }
+  .sub{ color: var(--text-dim); margin-bottom: 32px; }
+  .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap:16px; max-width:1100px; }
+  a.card{
+    display:block; background: var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding: 22px; text-decoration:none; color: var(--text); transition: border-color .15s;
+  }
+  a.card:hover{ border-color: var(--gold); }
+  a.card.disabled{ opacity:.45; pointer-events:none; }
+  .name{ font-weight:700; font-size:16px; margin-bottom:4px; }
+  .role{ font-size:12.5px; color: var(--text-dim); }
+  .status{ display:inline-block; margin-top:12px; font-size:11px; font-weight:700; padding:3px 10px; border-radius:100px; }
+  .status.live{ background: rgba(63,168,114,0.18); color:#3FA872; }
+  .status.pending{ background: rgba(214,162,75,0.12); color: var(--gold-soft); }
+</style>
+</head>
+<body>
+  <h1>🛡️ Valkyria Squad</h1>
+  <div class="sub">Panel individual de cada BDR — click para ver su detalle</div>
+  <div class="grid">
+    <a class="card" href="kathia.html">
+      <div class="name">Kathia Liñan</div>
+      <div class="role">México</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="cathia.html" >
+      <div class="name">Cathia Castillo</div>
+      <div class="role">Centroamérica</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="ximenasaavedra.html">
+      <div class="name">Ximena Saavedra</div>
+      <div class="role">Andina</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="ximenacruz.html">
+      <div class="name">Ximena Cruz</div>
+      <div class="role">HISPAM · Inbound (SDR)</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="flor.html">
+      <div class="name">Flor Molozaj</div>
+      <div class="role">México</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="jem.html">
+      <div class="name">Jem Ortega</div>
+      <div class="role">México</div>
+      <span class="status pending">Próximamente</span>
+    </a>
+    <a class="card" href="luisa.html">
+      <div class="name">Luisa Fernanda Hernández</div>
+      <div class="role">Centroamérica</div>
+      <span class="status live">Disponible</span>
+    </a>
+    <a class="card" href="andres.html">
+      <div class="name">Andrés Muralles</div>
+      <div class="role">México</div>
+      <span class="status pending">Próximamente</span>
+    </a>
+    <a class="card" href="laura.html">
+      <div class="name">Laura Angel</div>
+      <div class="role">Centroamérica · En rampup</div>
+      <span class="status live">Disponible</span>
+    </a>
+  </div>
+</body>
+</html>
