@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ximena Saavedra — Valkyria Squad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1F1533;
+    --bg-soft: #251A3D;
+    --panel: #2E2050;
+    --panel-2: #362761;
+    --line: #423277;
+    --gold: #C9A24B;
+    --gold-soft: #E4C878;
+    --violet-light: #9B7FE8;
+    --text: #E8DFC8;
+    --text-dim: #B3A6CE;
+    --green: #3FA872;
+    --amber: #D6A24B;
+    --red: #D64545;
+    --radius: 14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background: radial-gradient(circle at 15% 0%, #2A1E48 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  a{color:var(--gold-soft);text-decoration:none;}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding: 28px 6vw 34px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:-40% -10% auto auto;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(201,162,75,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .breadcrumb{
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 14px;
+  }
+  .breadcrumb a{color:var(--text-dim);}
+  .breadcrumb a:hover{color:var(--gold-soft);}
+  .hero-row{
+    display:flex; justify-content:space-between; align-items:flex-end; gap: 24px; flex-wrap: wrap;
+  }
+  .hero-name{
+    font-family:'Cinzel', serif; font-weight:700;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--gold-soft);
+    letter-spacing: .01em;
+  }
+  .hero-sub{ margin-top:6px; color: var(--text-dim); font-size: 15px; }
+  .badge-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .badge{
+    font-size:12px; font-weight:700; padding:6px 12px; border-radius:100px;
+    border:1px solid var(--line); background: var(--panel);
+    letter-spacing:.03em;
+  }
+  .badge.gold{ border-color:var(--gold); color:var(--gold-soft); }
+  .badge.month{ color: var(--violet-light); border-color: var(--violet-light); }
+
+  .transition-note{
+    margin-top:18px; max-width: 640px;
+    background: linear-gradient(135deg, rgba(201,162,75,0.14), rgba(201,162,75,0.04));
+    border: 1px solid rgba(201,162,75,0.4);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height:1.5;
+    color: var(--text);
+  }
+  .transition-note b{color:var(--gold-soft);}
+
+  /* ===== SECTION WRAP ===== */
+  .wrap{ padding: 34px 6vw 0; max-width: 1180px; margin: 0 auto; }
+  .section-title{
+    font-family:'Cinzel', serif; font-size: 15px; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--gold-soft); margin-bottom: 16px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after{ content:""; flex:1; height:1px; background: var(--line); }
+
+  /* ===== KPI GRID ===== */
+  .kpi-grid{
+    display:grid; grid-template-columns: 1.1fr 1fr 1fr 1fr; gap: 16px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 900px){ .kpi-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .kpi-grid{ grid-template-columns: 1fr; } }
+
+  .card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card-label{
+    font-size:11px; text-transform:uppercase; letter-spacing:.1em; color: var(--text-dim); margin-bottom:10px;
+  }
+  .card-value{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size: 26px; color:var(--text);
+  }
+  .card-value.gold{color:var(--gold-soft);}
+  .card-value.green{color:var(--green);}
+  .card-value.red{color:var(--red);}
+  .card-goal{ font-size:12.5px; color: var(--text-dim); margin-top:6px; }
+  .bar-track{ height:6px; border-radius:6px; background: var(--bg-soft); margin-top:12px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:6px; background: linear-gradient(90deg, var(--violet-light), var(--gold)); }
+
+  /* Shield gauge card */
+  .gauge-card{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .gauge-wrap{ position:relative; width: 180px; }
+  .gauge-num{
+    position:absolute; top:58%; left:50%; transform:translate(-50%,-50%);
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:30px; color:var(--gold-soft);
+  }
+  .gauge-tag{
+    position:absolute; top:78%; left:50%; transform:translate(-50%,-50%);
+    font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-dim);
+  }
+  .semaforo{
+    margin-top:14px; display:flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:700; padding:6px 14px; border-radius:100px;
+  }
+  .semaforo.rojo{ background: rgba(214,69,69,0.16); color: var(--red); }
+  .semaforo.amarillo{ background: rgba(214,162,75,0.16); color: var(--amber); }
+  .semaforo.verde{ background: rgba(63,168,114,0.16); color: var(--green); }
+  .dot{ width:8px; height:8px; border-radius:50%; background: currentColor; }
+
+  /* ===== FUNNEL ===== */
+  .funnel-grid{
+    display:grid; grid-template-columns: repeat(7, 1fr); gap:10px; margin-bottom:40px;
+  }
+  @media (max-width: 760px){ .funnel-grid{ grid-template-columns: repeat(3,1fr); } }
+  .funnel-item{
+    background: var(--panel); border:1px solid var(--line); border-radius: 10px;
+    padding: 14px 10px; text-align:center;
+  }
+  .funnel-item .n{ font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; }
+  .funnel-item .l{ font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:4px; }
+  .funnel-item.warn .n{ color: var(--red); }
+
+  /* ===== ALERTAS ===== */
+  .alert-stack{ display:flex; flex-direction:column; gap:10px; margin-bottom:40px; }
+  .alert{
+    display:flex; gap:12px; align-items:flex-start;
+    border-radius: var(--radius); padding: 14px 16px; font-size: 13.5px; line-height:1.5;
+    border: 1px solid var(--line);
+  }
+  .alert .icon{ font-size:18px; }
+  .alert.success{ background: rgba(63,168,114,0.1); border-color: rgba(63,168,114,0.35); }
+  .alert.danger{ background: rgba(214,69,69,0.1); border-color: rgba(214,69,69,0.35); }
+  .alert.info{ background: rgba(155,127,232,0.1); border-color: rgba(155,127,232,0.35); }
+  .alert b{ color: var(--gold-soft); }
+
+  /* ===== CALCULADORA ===== */
+  .calc-card{
+    background: var(--panel); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 26px; margin-bottom: 40px;
+  }
+  .calc-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:24px; }
+  @media (max-width: 760px){ .calc-grid{ grid-template-columns: 1fr; } }
+  .field{ margin-bottom:16px; }
+  .field label{ font-size:12px; color:var(--text-dim); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em; }
+  .field input, .field select{
+    width:100%; background: var(--bg-soft); border:1px solid var(--line); border-radius:8px;
+    padding:10px 12px; color: var(--text); font-family:'JetBrains Mono',monospace; font-size:14px;
+  }
+  .result-box{
+    background: var(--bg-soft); border:1px solid var(--gold); border-radius: 10px; padding: 18px;
+  }
+  .result-row{ display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--line); }
+  .result-row:last-child{ border-bottom:none; }
+  .result-row .rl{ font-size:13px; color: var(--text-dim); }
+  .result-row .rv{ font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--gold-soft); font-size:16px; }
+  .tier-strip{ display:flex; gap:6px; margin-top:16px; flex-wrap:wrap; }
+  .tier{
+    flex:1; min-width:70px; text-align:center; padding:8px 4px; border-radius:8px; font-size:11px;
+    border:1px solid var(--line); color: var(--text-dim);
+  }
+  .tier.active{ border-color: var(--gold); color: var(--gold-soft); background: rgba(201,162,75,0.12); }
+  .tier .t-pct{ font-family:'JetBrains Mono',monospace; font-weight:700; display:block; font-size:13px; }
+
+  /* ===== NOTAS ===== */
+  .notes-card{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding: 22px; margin-bottom:40px; }
+  .note-form{ display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+  .note-form input, .note-form textarea{
+    background: var(--bg-soft); border:1px solid var(--line); border-radius:8px; color:var(--text);
+    padding:10px 12px; font-family:'Manrope',sans-serif; font-size:13.5px;
+  }
+  .note-form input[type="date"]{ width:150px; }
+  .note-form textarea{ flex:1; min-width:220px; resize:vertical; min-height:42px; }
+  .note-form button{
+    background: var(--gold); color: #241833; border:none; border-radius:8px; padding:0 18px;
+    font-weight:700; font-size:13px; cursor:pointer; letter-spacing:.02em;
+  }
+  .note-form button:hover{ background: var(--gold-soft); }
+  .note-list{ display:flex; flex-direction:column; gap:10px; }
+  .note-item{
+    border-left: 3px solid var(--violet-light); background: var(--bg-soft); border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .note-item .n-date{ font-size:11px; color: var(--text-dim); font-family:'JetBrains Mono',monospace; }
+  .note-item .n-text{ font-size:13.5px; margin-top:4px; }
+  .note-empty{ color: var(--text-dim); font-size:13px; font-style:italic; }
+
+  footer{ text-align:center; color: var(--text-dim); font-size:11.5px; padding: 20px 6vw; }
+
+  /* ===== TABS ===== */
+  .tabnav{
+    display:flex; gap:6px; padding: 0 6vw; margin-top:22px; border-bottom:1px solid var(--line);
+  }
+  .tabnav button{
+    background:none; border:none; color: var(--text-dim); font-family:'Manrope',sans-serif;
+    font-weight:700; font-size:13.5px; padding: 12px 18px; cursor:pointer; letter-spacing:.02em;
+    border-bottom: 2px solid transparent; margin-bottom:-1px;
+  }
+  .tabnav button.active{ color: var(--gold-soft); border-bottom-color: var(--gold); }
+  .tabnav button:hover{ color: var(--text); }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+
+  /* ===== Q CARDS (anual) ===== */
+  .q-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:16px; margin-bottom:36px; }
+  @media (max-width: 760px){ .q-grid{ grid-template-columns: 1fr 1fr; } }
+  .q-card{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding:18px; }
+  .q-card .q-label{ font-family:'Cinzel',serif; font-size:13px; letter-spacing:.06em; color:var(--gold-soft); margin-bottom:10px; }
+  .q-card .q-pct{ font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; }
+  .q-card .q-detail{ font-size:11.5px; color:var(--text-dim); margin-top:8px; line-height:1.6; }
+  .q-card .bar-track{ margin-top:10px; }
+  .pill-status{ display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; margin-top:8px; }
+  .pill-status.on{ background: rgba(63,168,114,0.18); color: var(--green); }
+  .pill-status.off{ background: rgba(214,69,69,0.18); color: var(--red); }
+  .pill-status.pending{ background: rgba(155,127,232,0.18); color: var(--violet-light); }
+
+  /* ===== VS compare ===== */
+  .vs-card{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding:24px; margin-bottom:36px; }
+  .vs-row{ display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+  .vs-row:last-child{ margin-bottom:0; }
+  .vs-label{ width:150px; font-size:13px; color: var(--text-dim); flex-shrink:0; }
+  .vs-track{ flex:1; height:14px; background: var(--bg-soft); border-radius:8px; overflow:hidden; position:relative; }
+  .vs-fill{ height:100%; border-radius:8px; }
+  .vs-fill.kathia{ background: linear-gradient(90deg, var(--violet-light), var(--gold)); }
+  .vs-fill.team{ background: var(--text-dim); opacity:.5; }
+  .vs-val{ width:60px; text-align:right; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; }
+  .vs-note{ font-size:12.5px; color: var(--text-dim); margin-top:14px; }
+
+  /* ===== Chart mensual ===== */
+  .chart-card{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding:24px; margin-bottom:36px; }
+  .chart-legend{ display:flex; gap:18px; margin-bottom:16px; font-size:11.5px; color:var(--text-dim); }
+  .chart-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .chart-legend .sw{ width:10px; height:10px; border-radius:2px; display:inline-block; }
+
+  .callout{
+    background: linear-gradient(135deg, rgba(155,127,232,0.14), rgba(155,127,232,0.03));
+    border:1px solid rgba(155,127,232,0.4); border-radius: var(--radius); padding:14px 16px;
+    font-size:13px; line-height:1.55; margin-bottom:36px;
+  }
+  .callout b{ color: var(--violet-light); }
+
+  .month-selector-row{
+    display:flex; align-items:center; gap:12px; margin-bottom:28px; flex-wrap:wrap;
+  }
+  .month-selector-row label{ font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; }
+  .month-selector-row select{
+    background: var(--panel); border:1px solid var(--gold); border-radius:8px; color:var(--gold-soft);
+    padding:8px 14px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px;
+  }
+  .month-hint{ font-size:12.5px; color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="breadcrumb"><a href="equipo.html">Valkyria Squad</a> / Ximena Saavedra</div>
+  <div class="hero-row">
+    <div>
+      <div class="hero-name">Ximena Saavedra</div>
+      <div class="hero-sub">BDR — Colombia, Perú y Ecuador (Andina)</div>
+      <div class="badge-row">
+        <span class="badge gold">🛡️ Meta julio: 15 SQO / $14,565 pipeline</span>
+        <span class="badge month">Julio 2026</span>
+      </div>
+    </div>
+  </div>
+  <div class="transition-note">
+    📋 <b>Ingreso:</b> Ximena Saavedra arrancó en <b>abril 2026</b> — enero a marzo no era parte del equipo.
+    Ya en julio alcanzó el 104% de Total Performance y desbloqueó $75 de comisión — el primer mes con el
+    nuevo esquema le fue bien.
+  </div>
+</div>
+
+<div class="tabnav">
+  <button class="active" data-tab="resumen">Mes en curso</button>
+  <button data-tab="anual">Avance anual</button>
+  <button data-tab="historial">Historial de comisiones</button>
+</div>
+
+<div class="wrap">
+<div class="tab-panel active" id="tab-resumen">
+
+  <div class="section-title">Meta del mes</div>
+  <div class="month-selector-row">
+    <label for="monthSelect">Ver mes</label>
+    <select id="monthSelect"></select>
+    <span class="month-hint" id="monthHint"></span>
+  </div>
+
+  <div class="section-title">Performance del mes</div>
+  <div class="kpi-grid">
+    <div class="card gauge-card">
+      <div class="card-label">Performance total</div>
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 180 110" width="180" height="110">
+          <path d="M 15 100 A 75 75 0 0 1 165 100" fill="none" stroke="#3A2C63" stroke-width="12" stroke-linecap="round"/>
+          <path id="gaugeArc" d="M 15 100 A 75 75 0 0 1 165 100" fill="none" stroke="#C9A24B" stroke-width="12" stroke-linecap="round"
+                stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+          <!-- rune ticks -->
+          <g stroke="#5B4791" stroke-width="2">
+            <line x1="15" y1="100" x2="20" y2="88"/>
+            <line x1="41" y1="49" x2="48" y2="58"/>
+            <line x1="90" y1="25" x2="90" y2="35"/>
+            <line x1="139" y1="49" x2="132" y2="58"/>
+            <line x1="165" y1="100" x2="160" y2="88"/>
+          </g>
+        </svg>
+        <div class="gauge-num" id="gaugeNum">43%</div>
+        <div class="gauge-tag">del objetivo</div>
+      </div>
+      <div class="semaforo rojo" id="semaforo"><span class="dot"></span> <span id="semaforoText">Bajo objetivo semanal</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">SQO validados</div>
+      <div class="card-value gold" id="sqoValue">8 <span style="font-size:15px;color:var(--text-dim);">/ 15</span></div>
+      <div class="card-goal" id="sqoGoalText">53% de la meta mensual</div>
+      <div class="bar-track"><div class="bar-fill" id="sqoBar" style="width:53%;"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Pipeline validado</div>
+      <div class="card-value gold" id="pipeValue">$8,460 <span style="font-size:14px;color:var(--text-dim);">/ $25,710</span></div>
+      <div class="card-goal" id="pipeGoalText">33% de la meta mensual</div>
+      <div class="bar-track"><div class="bar-fill" id="pipeBar" style="width:33%;"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Forecast (Val+Held+Booked)</div>
+      <div class="card-value" id="fcstValue">12 <span style="font-size:15px;color:var(--text-dim);">/ 15</span></div>
+      <div class="card-goal" id="fcstGoalText">80% si valida todo lo agendado</div>
+      <div class="bar-track"><div class="bar-fill" id="fcstBar" style="width:80%;"></div></div>
+    </div>
+  </div>
+
+  <div class="section-title">Embudo del mes</div>
+  <div class="callout" id="funnelNote" style="display:none;">
+    El detalle de embudo (Booked / Held / No Show, etc.) viene del Forecast tool operativo, disponible desde
+    <b>julio 2026</b>. Para meses anteriores o futuros sin seguimiento aún, esta sección no tiene datos.
+  </div>
+  <div class="funnel-grid" id="funnelGrid"></div>
+
+  <div class="section-title">Alertas</div>
+  <div class="alert-stack">
+    <div class="alert danger">
+      <span class="icon">⚠️</span>
+      <div><b>Caída fuerte de julio a agosto:</b> pasó de 104% de Total Performance (ganó $75 de comisión) a solo 28.4% — la meta de agosto también subió bastante ($14,565 → $23,625), pero vale la pena revisar qué pasó.</div>
+    </div>
+    <div class="alert success">
+      <span class="icon">🎉</span>
+      <div><b>Julio fue su mejor mes desde que ingresó:</b> superó el 100% de pipeline (120%) y ganó su primera comisión por performance. Buen momento para reconocerlo en la próxima 1:1.</div>
+    </div>
+    <div class="alert info">
+      <span class="icon">📊</span>
+      <div>Arrancó fuerte en abril (207% por puntos) y fue bajando gradualmente cada mes hasta 87% en junio — una tendencia a la baja que se revirtió con el cambio de esquema en julio.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Comisión y negocios cerrados <span id="commMonthLabel" style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;"></span></div>
+  <div class="callout" id="commLoadingNote">
+    ⏳ Conectando con el Control de Comisiones... si esto no cambia en unos segundos, la Sheet puede no estar accesible desde este navegador.
+  </div>
+  <div class="kpi-grid" id="commSummaryGrid" style="display:none; margin-bottom:20px;">
+    <div class="card">
+      <div class="card-label">Comisión por sobreperformance</div>
+      <div class="card-value gold" id="commSobreValue">$0</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Comisión por negocios (outbound)</div>
+      <div class="card-value gold" id="commOutboundValue">$0</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total del mes</div>
+      <div class="card-value green" id="commTotalValue">$0</div>
+    </div>
+  </div>
+  <div class="alert-stack" id="commDealsList"></div>
+
+  <div class="section-title">Calculadora de cierre de mes</div>
+  <div class="calc-card">
+    <div class="calc-grid">
+      <div>
+        <div class="field">
+          <label>Días hábiles restantes</label>
+          <input type="number" id="daysLeft" value="6" min="1" max="30">
+        </div>
+        <div class="field">
+          <label>Meta a alcanzar</label>
+          <select id="targetTier">
+            <option value="1.0">100% — Comisión $75</option>
+            <option value="1.1">110% — Comisión $250</option>
+            <option value="1.2">120% — Comisión $500</option>
+            <option value="1.5">150% — Comisión $800</option>
+            <option value="2.0">200% — Comisión $1,200</option>
+          </select>
+        </div>
+        <div class="tier-strip">
+          <div class="tier active" data-t="1.0"><span class="t-pct">100%</span>$75</div>
+          <div class="tier" data-t="1.1"><span class="t-pct">110%</span>$250</div>
+          <div class="tier" data-t="1.2"><span class="t-pct">120%</span>$500</div>
+          <div class="tier" data-t="1.5"><span class="t-pct">150%</span>$800</div>
+          <div class="tier" data-t="2.0"><span class="t-pct">200%</span>$1,200</div>
+        </div>
+      </div>
+      <div class="result-box">
+        <div class="result-row"><span class="rl">SQO faltantes</span><span class="rv" id="rSqo">7</span></div>
+        <div class="result-row"><span class="rl">SQO por día hábil</span><span class="rv" id="rSqoDay">1.17</span></div>
+        <div class="result-row"><span class="rl">Pipeline faltante</span><span class="rv" id="rPipe">$17,250</span></div>
+        <div class="result-row"><span class="rl">Pipeline por día hábil</span><span class="rv" id="rPipeDay">$2,875</span></div>
+        <div class="result-row"><span class="rl">Comisión si llega a la meta</span><span class="rv" id="rComm">$75</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Notas de seguimiento (feedback 1:1)</div>
+  <div class="notes-card">
+    <div class="note-form">
+      <input type="date" id="noteDate">
+      <textarea id="noteText" placeholder="Escribe la nota de la sesión 1:1..."></textarea>
+      <button onclick="addNote()">Guardar nota</button>
+    </div>
+    <div class="note-list" id="noteList">
+      <div class="note-empty">Aún no hay notas cargadas. Esta sección guarda localmente en esta sesión — cuando conectemos la fuente de datos compartida, quedará visible también para el jefe de equipo.</div>
+    </div>
+  </div>
+
+</div><!-- /tab-resumen -->
+
+<div class="tab-panel" id="tab-anual">
+
+  <div class="callout">
+    ✅ <b>Metas conectadas en vivo</b> a la Sheet oficial de RevOps ("BDR Objectives - BDMs"). Meta de Q3:
+    <b>$69,690</b> (Jul $14,565 + Ago $23,625 + Sep $31,500). Meta anual total: <b>$183,194</b>.
+  </div>
+
+  <div class="section-title">Avance por trimestre 2026 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;">— % oficial de cumplimiento (puntos)</span></div>
+  <div class="q-grid">
+    <div class="q-card">
+      <div class="q-label">Q1 · Ene-Mar</div>
+      <div class="q-pct" style="color:var(--text-dim)">—</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;"></div></div>
+      <div class="q-detail">Aún no era parte del equipo (ingresó en abril).</div>
+      <span class="pill-status pending">Sin cuota</span>
+    </div>
+    <div class="q-card">
+      <div class="q-label">Q2 · Abr-Jun</div>
+      <div class="q-pct" style="color:var(--green)">119%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green);"></div></div>
+      <div class="q-detail">Puntos: 94 / meta 79<br>Pipeline: 114% ($33,179 → $37,879)<br>Reuniones: 156% (34 → 53)</div>
+      <span class="pill-status on">Meta superada</span>
+    </div>
+    <div class="q-card">
+      <div class="q-label">Q3 · Jul-Sep</div>
+      <div class="q-pct" id="q3Pct" style="color:var(--amber)">—</div>
+      <div class="bar-track"><div class="bar-fill" id="q3Bar" style="width:0%;background:var(--amber);"></div></div>
+      <div class="q-detail" id="q3Detail">Cargando...</div>
+      <span class="pill-status pending" id="q3Status">En curso</span>
+    </div>
+    <div class="q-card">
+      <div class="q-label">Q4 · Oct-Dic</div>
+      <div class="q-pct" id="q4Pct" style="color:var(--text-dim)">—</div>
+      <div class="bar-track"><div class="bar-fill" id="q4Bar" style="width:0%;"></div></div>
+      <div class="q-detail" id="q4Detail">Meta pipeline $80,325<br>Aún sin datos</div>
+      <span class="pill-status pending" id="q4Status">Sin iniciar</span>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:-8px;">
+    ℹ️ El % de cumplimiento oficial por trimestre es el de <b>puntos</b> (119% Q2) — arrancó fuerte, muy por
+    encima de meta desde su primer mes activo (abril: 207%).
+  </div>
+
+  <div class="section-title">Pipeline recolectado en el año</div>
+  <div class="kpi-grid" style="margin-bottom:36px;">
+    <div class="card">
+      <div class="card-label">Pipeline generado YTD (Abr-Ago)</div>
+      <div class="card-value gold">$60,967</div>
+      <div class="card-goal">Suma real Abr+May+Jun+Jul+Ago</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Meta acumulada YTD</div>
+      <div class="card-value">$71,369</div>
+      <div class="card-goal">Suma de metas Abr-Ago</div>
+    </div>
+    <div class="card">
+      <div class="card-label">% cumplimiento YTD</div>
+      <div class="card-value" style="color:var(--amber);">85%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--amber);"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Meta anual total 2026</div>
+      <div class="card-value">$183,194</div>
+      <div class="card-goal">Fuente: RevOps — Anual pipeline objective MRR</div>
+    </div>
+  </div>
+
+  <div class="section-title">Ximena Saavedra vs. promedio del squad <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;">— abril-junio, esquema de puntos</span></div>
+  <div class="vs-card">
+    <div class="vs-row">
+      <div class="vs-label">Ximena S. (promedio Abr-Jun)</div>
+      <div class="vs-track"><div class="vs-fill kathia" style="width:100%;"></div></div>
+      <div class="vs-val">138%</div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-label">Promedio Valkyria Squad</div>
+      <div class="vs-track"><div class="vs-fill team" style="width:93%;"></div></div>
+      <div class="vs-val">93%</div>
+    </div>
+    <div class="vs-note">
+      Ximena Saavedra queda <b style="color:var(--green)">muy por encima</b> del promedio del squad desde su
+      arranque — su mejor mes fue abril (207%, el primero), bajando gradualmente a 87% en junio. Ya en julio
+      ganó su primera comisión por performance ($75).
+    </div>
+  </div>
+
+  <div class="section-title">Tendencia mensual — % cumplimiento de pipeline vs. meta oficial</div>
+  <div class="chart-card">
+    <div class="chart-legend">
+      <span><span class="sw" style="background:var(--gold);"></span>% de la meta mensual de pipeline (RevOps)</span>
+      <span><span class="sw" style="background:var(--violet-light);"></span>Meta 100%</span>
+    </div>
+    <div class="month-hint" style="margin-bottom:12px;">Ago-Dic: metas ya fijadas por RevOps; el resultado real se carga mes a mes.</div>
+    <svg viewBox="0 0 900 200" width="100%" height="200" preserveAspectRatio="none">
+      <line x1="0" y1="90" x2="900" y2="90" stroke="#9B7FE8" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <text x="4" y="84" fill="#9B7FE8" font-size="10" font-family="JetBrains Mono">100%</text>
+      <g id="trendBars"></g>
+    </svg>
+  </div>
+
+</div><!-- /tab-anual -->
+
+<div class="tab-panel" id="tab-historial">
+
+  <div class="callout">
+    💰 <b>Comisión acumulada desde que Ximena Saavedra ingresó a Humand</b> (abril 2026). Abril-junio
+    confirmado con su Dashboard individual: $925, esquema por puntos. Julio en adelante se suma en vivo
+    desde el Control de Comisiones (ya ganó $75 en julio por Total Performance).
+  </div>
+
+  <div class="kpi-grid" style="margin-bottom:36px;">
+    <div class="card">
+      <div class="card-label">Total histórico (Abr-Jun, cerrado)</div>
+      <div class="card-value">$925</div>
+      <div class="card-goal">Esquema por puntos, ya pagado</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total en vivo (Jul en adelante)</div>
+      <div class="card-value gold" id="histLiveValue">$0</div>
+      <div class="card-goal" id="histLiveDetail">Cargando...</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total acumulado desde el ingreso</div>
+      <div class="card-value green" id="histTotalValue">$925</div>
+      <div class="card-goal">Abril 2026 → hoy</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Meses activo</div>
+      <div class="card-value" id="histMonthsValue">—</div>
+      <div class="card-goal">Desde abril 2026</div>
+    </div>
+  </div>
+
+  <div class="section-title">Desglose mes a mes</div>
+  <div class="alert-stack" id="histBreakdown"></div>
+
+</div><!-- /tab-historial -->
+
+</div><!-- /wrap -->
+
+<footer>Panel individual — Valkyria Squad · Mes en curso: Forecast julio-agosto 2026 · Histórico: Abr-Jun del Dashboard original · Última actualización manual</footer>
+
+<script>
+  // ---- Datos oficiales RevOps 2026 (BDR Objectives - BDMs) + reales cargados ----
+  const monthsData = [
+    { key:'ene', label:'Enero',      sqoGoal:0,   mrrGoal:0,      sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'not_hired' },
+    { key:'feb', label:'Febrero',    sqoGoal:0,   mrrGoal:0,      sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'not_hired' },
+    { key:'mar', label:'Marzo',      sqoGoal:0,   mrrGoal:0,      sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'not_hired' },
+    { key:'abr', label:'Abril',      sqoGoal:5.78,mrrGoal:5612.38,sqoActual:16, mrrActual:8713,  hasFunnel:false, scheme:'points', ptsGoal:14, ptsActual:29, perfPct:2.07 },
+    { key:'may', label:'Mayo',       sqoGoal:11.39,mrrGoal:11059.69,sqoActual:22, mrrActual:14165, hasFunnel:false, scheme:'points', ptsGoal:26, ptsActual:31, perfPct:1.19 },
+    { key:'jun', label:'Junio',      sqoGoal:17,  mrrGoal:16507,  sqoActual:15, mrrActual:15001, hasFunnel:false, scheme:'points', ptsGoal:39, ptsActual:34, perfPct:0.87 },
+    { key:'jul', label:'Julio',      sqoGoal:15,  mrrGoal:14565,  sqoActual:13, mrrActual:17530, scheme:'sqo_pipeline',
+      hasFunnel:true, booked:0, held:0, pending:0, resch:0, noshow:4, nofit:0, canceled:2, fcstMtgs:16 },
+    { key:'ago', label:'Agosto',     sqoGoal:15,  mrrGoal:23625,  sqoActual:5,  mrrActual:5558,  scheme:'sqo_pipeline',
+      hasFunnel:true, booked:8, held:0, pending:0, resch:0, noshow:1, nofit:0, canceled:0, fcstMtgs:13 },
+    { key:'sep', label:'Septiembre', sqoGoal:20,  mrrGoal:31500,  sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'sqo_pipeline' },
+    { key:'oct', label:'Octubre',    sqoGoal:22,  mrrGoal:34650,  sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'sqo_pipeline' },
+    { key:'nov', label:'Noviembre',  sqoGoal:17,  mrrGoal:26775,  sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'sqo_pipeline' },
+    { key:'dic', label:'Diciembre',  sqoGoal:12,  mrrGoal:18900,  sqoActual:null, mrrActual:null, hasFunnel:false, scheme:'sqo_pipeline' },
+  ];
+  const commTiers = {"1.0":75, "1.1":250, "1.2":500, "1.5":800, "2.0":1200};
+
+  const monthSelect = document.getElementById('monthSelect');
+  monthsData.forEach((m,i)=>{
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = m.label + ' 2026';
+    monthSelect.appendChild(opt);
+  });
+  monthSelect.value = 6; // Julio, mes en curso
+
+  function renderMonth(){
+    const m = monthsData[monthSelect.value];
+    const hint = document.getElementById('monthHint');
+    const schemeNote = m.scheme === 'points'
+      ? ' Esquema marzo-junio: cumplimiento por puntos (no comparable 1 a 1 con SQO+Pipeline).'
+      : ' Esquema desde julio: Total Performance = promedio de SQO% y Pipeline%.';
+    if(m.scheme === 'not_hired'){
+      hint.textContent = 'Aún no había ingresado a Humand.';
+    } else if(m.scheme === 'onboarding'){
+      hint.textContent = 'Mes de ingreso — sin meta asignada (onboarding).';
+    } else if(m.scheme === 'sqo_pipeline' && m.sqoGoal === 0 && m.mrrGoal === 0){
+      hint.textContent = '🏖️ Sin meta este mes (licencia u otro caso especial confirmado con RevOps).';
+    } else if(m.mrrActual === null){
+      hint.textContent = 'Meta oficial fijada (RevOps) — resultado real aún no cargado.' + schemeNote;
+    } else {
+      hint.textContent = 'Meta oficial (RevOps) con resultado real cargado.' + schemeNote;
+    }
+
+    const sqoPct = (m.sqoActual !== null && m.sqoGoal > 0) ? m.sqoActual / m.sqoGoal : null;
+    const mrrPct = (m.mrrActual !== null && m.mrrGoal > 0) ? m.mrrActual / m.mrrGoal : null;
+    // Marzo-Jun: esquema oficial por PUNTOS (perfPct ya viene del cierre real, no se recalcula).
+    // Jul en adelante: esquema nuevo = promedio simple de SQO% y Pipeline% (Forecast tool).
+    const totalPerf = m.scheme === 'points' ? m.perfPct
+                       : (m.scheme === 'not_hired' || m.scheme === 'onboarding') ? null
+                       : (sqoPct !== null && mrrPct !== null) ? (sqoPct + mrrPct) / 2 : null;
+    const gaugeCaption = m.scheme === 'points' ? '% cumplimiento de puntos'
+                       : m.scheme === 'not_hired' ? 'aún no ingresaba'
+                       : m.scheme === 'onboarding' ? 'sin cuota (onboarding)'
+                       : 'del objetivo (SQO+Pipeline)';
+    document.querySelector('.gauge-tag').textContent = gaugeCaption;
+
+    // Gauge + semáforo
+    const arcLen = 188.5;
+    const gaugeArc = document.getElementById('gaugeArc');
+    if(totalPerf !== null){
+      const clamped = Math.min(totalPerf, 1);
+      gaugeArc.setAttribute('stroke-dashoffset', arcLen - (arcLen * clamped));
+      document.getElementById('gaugeNum').textContent = Math.round(totalPerf*100) + '%';
+      const sem = document.getElementById('semaforo');
+      const semText = document.getElementById('semaforoText');
+      sem.className = 'semaforo ' + (totalPerf>=1?'verde':(totalPerf>=0.7?'amarillo':'rojo'));
+      semText.textContent = totalPerf>=1 ? 'Meta alcanzada' : (totalPerf>=0.7 ? 'Cerca del objetivo' : 'Bajo objetivo del mes');
+    } else if(m.scheme === 'not_hired'){
+      gaugeArc.setAttribute('stroke-dashoffset', arcLen);
+      document.getElementById('gaugeNum').textContent = '—';
+      document.getElementById('semaforo').className = 'semaforo amarillo';
+      document.getElementById('semaforoText').textContent = 'Aún no ingresaba';
+    } else if(m.scheme === 'onboarding'){
+      gaugeArc.setAttribute('stroke-dashoffset', arcLen);
+      document.getElementById('gaugeNum').textContent = '—';
+      document.getElementById('semaforo').className = 'semaforo amarillo';
+      document.getElementById('semaforoText').textContent = 'En onboarding';
+    } else {
+      gaugeArc.setAttribute('stroke-dashoffset', arcLen);
+      document.getElementById('gaugeNum').textContent = '—';
+      document.getElementById('semaforo').className = 'semaforo amarillo';
+      document.getElementById('semaforoText').textContent = 'Aún sin resultado cargado';
+    }
+
+    // SQO card — antes de julio, esta cifra es "reuniones totales" (no exclusivamente Validated)
+    document.querySelector('.kpi-grid .card:nth-child(2) .card-label').textContent =
+      m.scheme === 'points' ? 'Reuniones (todas)' : 'SQO validados';
+
+    // SQO card
+    document.getElementById('sqoValue').innerHTML = (m.sqoActual !== null ? m.sqoActual : '—') +
+      ' <span style="font-size:15px;color:var(--text-dim);">/ ' + m.sqoGoal + '</span>';
+    document.getElementById('sqoGoalText').textContent = (m.scheme === 'onboarding' || m.scheme === 'not_hired') ? 'Sin cuota este mes'
+      : (sqoPct !== null ? Math.round(sqoPct*100)+'% de la meta mensual' : 'Meta del mes: ' + m.sqoGoal + ' SQO');
+    document.getElementById('sqoBar').style.width = (sqoPct !== null ? Math.min(sqoPct*100,100) : 0) + '%';
+
+    // Pipeline card
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+    document.getElementById('pipeValue').innerHTML = (m.mrrActual !== null ? fmt(m.mrrActual) : '—') +
+      ' <span style="font-size:14px;color:var(--text-dim);">/ ' + fmt(m.mrrGoal) + '</span>';
+    document.getElementById('pipeGoalText').textContent = (m.scheme === 'onboarding' || m.scheme === 'not_hired') ? 'Sin cuota este mes'
+      : (mrrPct !== null ? Math.round(mrrPct*100)+'% de la meta mensual' : 'Meta del mes: ' + fmt(m.mrrGoal));
+    document.getElementById('pipeBar').style.width = (mrrPct !== null ? Math.min(mrrPct*100,100) : 0) + '%';
+
+    // Forecast card
+    if(m.hasFunnel){
+      document.getElementById('fcstValue').innerHTML = m.fcstMtgs + ' <span style="font-size:15px;color:var(--text-dim);">/ ' + m.sqoGoal + '</span>';
+      const fcstPct = m.fcstMtgs / m.sqoGoal;
+      document.getElementById('fcstGoalText').textContent = Math.round(fcstPct*100) + '% si valida todo lo agendado';
+      document.getElementById('fcstBar').style.width = Math.min(fcstPct*100,100) + '%';
+    } else {
+      document.getElementById('fcstValue').textContent = '—';
+      document.getElementById('fcstGoalText').textContent = 'Sin detalle de embudo para este mes';
+      document.getElementById('fcstBar').style.width = '0%';
+    }
+
+    // Funnel
+    const funnelGrid = document.getElementById('funnelGrid');
+    const funnelNote = document.getElementById('funnelNote');
+    if(m.hasFunnel){
+      funnelNote.style.display = 'none';
+      funnelGrid.style.display = 'grid';
+      funnelGrid.innerHTML = `
+        <div class="funnel-item"><div class="n">${m.booked}</div><div class="l">Booked</div></div>
+        <div class="funnel-item"><div class="n">${m.held}</div><div class="l">Held</div></div>
+        <div class="funnel-item"><div class="n">${m.sqoActual}</div><div class="l">Validated</div></div>
+        <div class="funnel-item"><div class="n">${m.pending}</div><div class="l">Pending</div></div>
+        <div class="funnel-item warn"><div class="n">${m.noshow}</div><div class="l">No Show</div></div>
+        <div class="funnel-item"><div class="n">${m.nofit}</div><div class="l">No Fit</div></div>
+        <div class="funnel-item warn"><div class="n">${m.canceled}</div><div class="l">Canceled</div></div>
+      `;
+    } else {
+      funnelNote.style.display = 'block';
+      funnelGrid.style.display = 'none';
+      funnelGrid.innerHTML = '';
+    }
+  }
+  monthSelect.addEventListener('change', renderMonth);
+  renderMonth();
+
+  // ---- Fetch en vivo de metas oficiales (RevOps "BDR Objectives - BDMs" publicado como CSV) ----
+  const OBJECTIVES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSou4xQz7XkGTV9Bo708HWbohY9mbxLZnfnxLUOddLFyFDxmSMhe3kBDwBTfx7BXmY3fos9rQbIA8GM/pub?gid=1105134414&single=true&output=csv';
+  const BDR_NAME_MATCH = 'saavedra'; // coincide con la columna BDR de la Sheet, sin distinguir mayúsculas
+
+  function parseCSV(text){
+    // Parser simple que respeta comillas (para no romper "$25,710")
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for(let i=0;i<text.length;i++){
+      const c = text[i];
+      if(inQuotes){
+        if(c === '"'){ if(text[i+1] === '"'){ field+='"'; i++; } else { inQuotes=false; } }
+        else field += c;
+      } else {
+        if(c === '"') inQuotes = true;
+        else if(c === ','){ row.push(field); field=''; }
+        else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+        else if(c !== '\r') field += c;
+      }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+  function toNum(v){
+    if(v === undefined || v === null) return null;
+    const clean = String(v).replace(/[$,]/g,'').trim();
+    if(clean === '' || clean === '-') return null;
+    const n = parseFloat(clean);
+    return isNaN(n) ? null : n;
+  }
+
+  fetch(OBJECTIVES_CSV_URL)
+    .then(r => r.text())
+    .then(text => {
+      const rows = parseCSV(text);
+      const header = rows[0];
+      const col = name => header.indexOf(name);
+      const bdrCol = col('BDR');
+      const monthCols = {
+        ene:['January M1','January MRR'], feb:['February M1','February MRR'], mar:['March M1','March MRR'],
+        abr:['April M1','April MRR'], may:['May M1','May MRR'], jun:['June M1','June MRR'],
+        jul:['July M1','July MRR'], ago:['August M1','August MRR'], sep:['September M1','September MRR'],
+        oct:['October M1','October MRR'], nov:['November M1','November MRR'], dic:['December M1','December MRR']
+      };
+      const found = rows.find(r => r[bdrCol] && r[bdrCol].toLowerCase().includes(BDR_NAME_MATCH));
+      if(!found){ console.warn('BDR no encontrado en la Sheet en vivo, se mantienen las metas cargadas manualmente.'); return; }
+
+      monthsData.forEach(m => {
+        const [sqoColName, mrrColName] = monthCols[m.key];
+        const sqoVal = toNum(found[col(sqoColName)]);
+        const mrrVal = toNum(found[col(mrrColName)]);
+        if(sqoVal !== null) m.sqoGoal = sqoVal;
+        if(mrrVal !== null) m.mrrGoal = mrrVal;
+      });
+
+      document.getElementById('monthHint').insertAdjacentHTML('afterend',
+        '<div class="month-hint" style="display:block;margin-top:4px;color:var(--green);">✅ Metas actualizadas en vivo desde la Sheet oficial.</div>');
+      renderMonth();
+    })
+    .catch(err => {
+      console.error('No se pudo conectar a la Sheet de metas, se mantienen las cargadas manualmente:', err);
+    });
+
+  // ---- Fetch en vivo de REALES (Valkyria BDR Forecast 26 — una pestaña publicada por mes) ----
+  const FORECAST_CSV_URLS = {
+    jul: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvD1idH15VytN-PeCDM1WjYiGjf1Psjjl3kR9yKs7XKRwtyDIYvfAKMItOB8wREfZ7lcKUdXQxUWx3/pub?gid=1798559117&single=true&output=csv',
+    ago: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvD1idH15VytN-PeCDM1WjYiGjf1Psjjl3kR9yKs7XKRwtyDIYvfAKMItOB8wREfZ7lcKUdXQxUWx3/pub?gid=996920446&single=true&output=csv'
+    // sumar acá "sep", "oct", etc. a medida que Angie publique la pestaña de cada mes nuevo
+  };
+
+  function toPct(v){
+    if(v === undefined || v === null) return null;
+    const clean = String(v).replace('%','').trim();
+    if(clean === '' || clean === '-') return null;
+    const n = parseFloat(clean);
+    return isNaN(n) ? null : n / 100;
+  }
+
+  Object.entries(FORECAST_CSV_URLS).forEach(([monthKey, url]) => {
+    fetch(url)
+      .then(r => r.text())
+      .then(text => {
+        const rows = parseCSV(text);
+        // La tabla DASHBOARD empieza en la fila que dice "BDR" en la primera columna
+        const headerRowIdx = rows.findIndex(r => r[0] === 'BDR');
+        if(headerRowIdx === -1) return;
+        const header = rows[headerRowIdx];
+        const col = name => header.indexOf(name);
+        const dataRows = rows.slice(headerRowIdx + 1);
+        const found = dataRows.find(r => r[0] && r[0].toLowerCase().includes(BDR_NAME_MATCH));
+        if(!found){ console.warn(`BDR no encontrado en Forecast de ${monthKey}`); return; }
+
+        const m = monthsData.find(mm => mm.key === monthKey);
+        if(!m) return;
+
+        m.sqoActual = toNum(found[col('Validated SQOs')]);
+        m.mrrActual = toNum(found[col('Validated Pipeline (USD)')]);
+        m.scheme = 'sqo_pipeline';
+        m.hasFunnel = true;
+        m.booked = toNum(found[col('Booked')]) || 0;
+        m.held = toNum(found[col('Held')]) || 0;
+        m.pending = toNum(found[col('Pending')]) || 0;
+        m.resch = toNum(found[col('To Resch.')]) || 0;
+        m.noshow = toNum(found[col('No Show')]) || 0;
+        m.nofit = toNum(found[col('No Fit')]) || 0;
+        m.canceled = toNum(found[col('Canceled')]) || 0;
+        m.fcstMtgs = toNum(found[col('Fcst Mtgs (Val+Held+Bkd)')]) || 0;
+
+        if(parseInt(monthSelect.value) === monthsData.indexOf(m)){
+          renderMonth();
+          calc();
+        }
+        document.getElementById('monthHint').insertAdjacentHTML('afterend',
+          `<div class="month-hint" style="display:block;margin-top:2px;color:var(--green);">✅ Reales de ${m.label} actualizados en vivo desde el Forecast.</div>`);
+        renderQuarters();
+      })
+      .catch(err => console.error(`No se pudo conectar al Forecast de ${monthKey}:`, err));
+  });
+
+  // ---- Q3/Q4 en vivo: se recalculan solos sumando los meses del Forecast ya conectados ----
+  const QUARTER_DEFS = {
+    q3: { keys: ['jul','ago','sep'], label: 'Q3 · Jul-Sep', metaAnual: 69690 },
+    q4: { keys: ['oct','nov','dic'], label: 'Q4 · Oct-Dic', metaAnual: 80325 },
+  };
+
+  function renderQuarters(){
+    Object.entries(QUARTER_DEFS).forEach(([qKey, def]) => {
+      const months = def.keys.map(k => monthsData.find(m => m.key === k)).filter(Boolean);
+      const loaded = months.filter(m => m.mrrActual !== null && m.scheme === 'sqo_pipeline');
+      const pctEl = document.getElementById(qKey + 'Pct');
+      const barEl = document.getElementById(qKey + 'Bar');
+      const detailEl = document.getElementById(qKey + 'Detail');
+      const statusEl = document.getElementById(qKey + 'Status');
+      if(!pctEl) return; // esta persona no tiene esas tarjetas con ID (aún no migradas)
+
+      if(loaded.length === 0){
+        pctEl.textContent = '—';
+        pctEl.style.color = 'var(--text-dim)';
+        barEl.style.width = '0%';
+        detailEl.textContent = `Meta $${def.metaAnual.toLocaleString('en-US')} · Aún sin datos`;
+        statusEl.textContent = 'Sin iniciar';
+        statusEl.className = 'pill-status pending';
+        return;
+      }
+
+      const metaGoal = loaded.reduce((s,m)=>s+m.mrrGoal, 0);
+      const metaActual = loaded.reduce((s,m)=>s+m.mrrActual, 0);
+      const pipePct = metaGoal > 0 ? metaActual / metaGoal : 0;
+      const perMonthLine = loaded.map(m => {
+        const sqoP = m.sqoGoal > 0 ? m.sqoActual / m.sqoGoal : 0;
+        const mrrP = m.mrrGoal > 0 ? m.mrrActual / m.mrrGoal : 0;
+        const tp = (sqoP + mrrP) / 2;
+        return `${m.label}: ${Math.round(tp*100)}% Total Performance`;
+      }).join(' · ');
+      const missing = months.length - loaded.length;
+
+      pctEl.textContent = Math.round(pipePct*100) + '%';
+      pctEl.style.color = pipePct >= 1 ? 'var(--green)' : (pipePct >= 0.7 ? 'var(--amber)' : 'var(--red)');
+      barEl.style.width = Math.min(pipePct*100,100) + '%';
+      barEl.style.background = pipePct >= 1 ? 'var(--green)' : (pipePct >= 0.7 ? 'var(--amber)' : 'var(--red)');
+      detailEl.innerHTML = `${perMonthLine}<br>Pipeline: ${Math.round(pipePct*100)}% ($${metaGoal.toLocaleString('en-US')} → $${metaActual.toLocaleString('en-US')})` +
+        (missing > 0 ? `<br>${missing} mes(es) del trimestre aún sin cargar` : '');
+      statusEl.textContent = missing > 0 ? 'En curso' : 'Cerrado';
+      statusEl.className = 'pill-status ' + (missing > 0 ? 'pending' : (pipePct >= 1 ? 'on' : 'pending'));
+    });
+  }
+  renderQuarters();
+
+  // ---- Fetch en vivo de COMISIONES (Control de Comisiones BDRs — estructura de 5 tablas lado a lado) ----
+  const COMMISSIONS_CSV_URLS = {
+    jul: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=1670557767&single=true&output=csv',
+    ago: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=411606557&single=true&output=csv'
+    // sumar acá "sep", "oct", etc. cuando Angie publique la pestaña "Pago [Mes]" de cada mes nuevo
+  };
+
+  function renderCommissions(){
+    const m = monthsData[monthSelect.value];
+    const loadingNote = document.getElementById('commLoadingNote');
+    const summaryGrid = document.getElementById('commSummaryGrid');
+    const dealsList = document.getElementById('commDealsList');
+    const monthLabel = document.getElementById('commMonthLabel');
+
+    if(m.commLoaded){
+      loadingNote.style.display = 'none';
+      summaryGrid.style.display = 'grid';
+      monthLabel.textContent = `— ${m.label} 2026 (en vivo)`;
+      document.getElementById('commSobreValue').textContent = '$' + m.commSobre.toLocaleString('en-US');
+      document.getElementById('commOutboundValue').textContent = '$' + m.commOutbound.toLocaleString('en-US');
+      document.getElementById('commTotalValue').textContent = '$' + m.commTotal.toLocaleString('en-US');
+      if(m.commDeals.length === 0){
+        dealsList.innerHTML = '<div class="alert info"><span class="icon">ℹ️</span><div>Sin negocios cerrados con comisión registrada este mes.</div></div>';
+      } else {
+        dealsList.innerHTML = m.commDeals.map(d =>
+          `<div class="alert success"><span class="icon">🔔</span><div><b>${d.deal}</b> (${d.type}) — comisión $${d.amount.toLocaleString('en-US')}</div></div>`
+        ).join('');
+      }
+    } else if(m.commError){
+      loadingNote.style.display = 'block';
+      summaryGrid.style.display = 'none';
+      loadingNote.innerHTML = `⚠️ No hay Sheet de comisiones conectada para ${m.label} todavía.`;
+    } else {
+      loadingNote.style.display = 'block';
+      summaryGrid.style.display = 'none';
+      loadingNote.innerHTML = '⏳ Conectando con el Control de Comisiones...';
+    }
+  }
+
+  Object.entries(COMMISSIONS_CSV_URLS).forEach(([monthKey, url]) => {
+    const m = monthsData.find(mm => mm.key === monthKey);
+    if(!m) return;
+    fetch(url)
+      .then(r => r.text())
+      .then(text => {
+        const rows = parseCSV(text);
+        const headerRowIdx = rows.findIndex(r => r[0] && r[0].trim() === 'BDR');
+        if(headerRowIdx === -1) throw new Error('No se encontró la fila de headers');
+        const dataRows = rows.slice(headerRowIdx + 1);
+
+        const groups = [
+          { name: 'Sobreperformance', bdrCol: 0, extraCol: 2, amountCol: 3 },
+          { name: 'Outbound', bdrCol: 5, extraCol: 7, amountCol: 8 },
+          { name: 'Inbound', bdrCol: 10, extraCol: 12, amountCol: 13 },
+        ];
+
+        let sobreAmount = 0, outboundAmount = 0, deals = [];
+        dataRows.forEach(r => {
+          groups.forEach(g => {
+            const name = r[g.bdrCol];
+            if(name && name.toLowerCase().includes(BDR_NAME_MATCH)){
+              const amt = toNum(r[g.amountCol]) || 0;
+              if(g.name === 'Sobreperformance') sobreAmount += amt;
+              else outboundAmount += amt;
+              if(g.name !== 'Sobreperformance'){
+                deals.push({ deal: r[g.extraCol] || '(sin nombre)', amount: amt, type: g.name });
+              }
+            }
+          });
+        });
+
+        m.commLoaded = true;
+        m.commSobre = sobreAmount;
+        m.commOutbound = outboundAmount;
+        m.commTotal = sobreAmount + outboundAmount;
+        m.commDeals = deals;
+
+        if(parseInt(monthSelect.value) === monthsData.indexOf(m)) renderCommissions();
+        renderHistorial();
+      })
+      .catch(err => {
+        console.error(`No se pudo conectar a la Sheet de Comisiones de ${monthKey}:`, err);
+        m.commError = true;
+        if(parseInt(monthSelect.value) === monthsData.indexOf(m)) renderCommissions();
+        renderHistorial();
+      });
+  });
+  renderCommissions();
+  monthSelect.addEventListener('change', renderCommissions);
+
+  // ---- Historial de comisiones desde el ingreso (Abr-Jun fijo + Jul en adelante en vivo) ----
+  const HISTORIC_MONTHLY_COMMISSIONS = [
+    { label: 'Abril', amount: 750 },
+    { label: 'Mayo',  amount: 175 },
+    { label: 'Junio', amount: 0 },
+  ];
+  const HISTORIC_TOTAL = HISTORIC_MONTHLY_COMMISSIONS.reduce((s, m) => s + m.amount, 0);
+
+  function renderHistorial(){
+    const liveMonths = monthsData.filter(m => m.commLoaded);
+    const liveTotal = liveMonths.reduce((s, m) => s + m.commTotal, 0);
+    const grandTotal = HISTORIC_TOTAL + liveTotal;
+    const pendingCount = monthsData.filter(m => Object.keys(COMMISSIONS_CSV_URLS).includes(m.key) && !m.commLoaded).length;
+
+    document.getElementById('histLiveValue').textContent = '$' + liveTotal.toLocaleString('en-US');
+    document.getElementById('histLiveDetail').textContent = pendingCount > 0
+      ? `${liveMonths.length} mes(es) cargado(s), esperando ${pendingCount} más`
+      : `${liveMonths.length} mes(es) cargado(s) en vivo`;
+    document.getElementById('histTotalValue').textContent = '$' + grandTotal.toLocaleString('en-US');
+    document.getElementById('histMonthsValue').textContent = (HISTORIC_MONTHLY_COMMISSIONS.length + liveMonths.length) + ' meses';
+
+    const breakdown = document.getElementById('histBreakdown');
+    const rows = HISTORIC_MONTHLY_COMMISSIONS.map(m =>
+      `<div class="alert info"><span class="icon">📁</span><div><b>${m.label} 2026</b> — $${m.amount.toLocaleString('en-US')} <span style="color:var(--text-dim);">(histórico, cerrado)</span></div></div>`
+    ).concat(
+      monthsData.filter(m => m.commLoaded).map(m =>
+        `<div class="alert success"><span class="icon">🔔</span><div><b>${m.label} 2026</b> — $${m.commTotal.toLocaleString('en-US')} <span style="color:var(--text-dim);">(en vivo)</span></div></div>`
+      )
+    );
+    breakdown.innerHTML = rows.join('');
+  }
+  renderHistorial();
+
+  // ---- Calculadora (ligada al mes seleccionado en el selector de arriba) ----
+  function calc(){
+    const m = monthsData[monthSelect.value];
+    const days = parseFloat(document.getElementById('daysLeft').value) || 1;
+    const t = parseFloat(document.getElementById('targetTier').value);
+    const curSQO = m.sqoActual || 0;
+    const curPipe = m.mrrActual || 0;
+    const needSQO = Math.max(0, (m.sqoGoal * t) - curSQO);
+    const needPipe = Math.max(0, (m.mrrGoal * t) - curPipe);
+    document.getElementById('rSqo').textContent = needSQO.toFixed(1);
+    document.getElementById('rSqoDay').textContent = (needSQO/days).toFixed(2);
+    document.getElementById('rPipe').textContent = '$' + Math.round(needPipe).toLocaleString('en-US');
+    document.getElementById('rPipeDay').textContent = '$' + Math.round(needPipe/days).toLocaleString('en-US');
+    document.getElementById('rComm').textContent = '$' + commTiers[t.toFixed(1)];
+
+    document.querySelectorAll('.tier').forEach(el=>{
+      el.classList.toggle('active', el.dataset.t === t.toFixed(1));
+    });
+  }
+  document.getElementById('daysLeft').addEventListener('input', calc);
+  document.getElementById('targetTier').addEventListener('change', calc);
+  monthSelect.addEventListener('change', calc);
+  document.querySelectorAll('.tier').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.getElementById('targetTier').value = el.dataset.t;
+      calc();
+    });
+  });
+  calc();
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tabnav button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tabnav button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ---- Chart mensual anual (barras SVG a mano, pipeline % vs meta oficial) ----
+  const chartMax = 1.8;
+  const chartH = 150, chartBase = 172, barW = 48, gap = 22;
+  const barsG = document.getElementById('trendBars');
+  monthsData.forEach((d, i)=>{
+    const pct = d.mrrActual !== null ? d.mrrActual / d.mrrGoal : null;
+    const x = 20 + i * (barW + gap);
+    if(pct !== null){
+      const h = Math.min(pct, chartMax) * (chartH/chartMax);
+      const y = chartBase - h;
+      const color = pct >= 1 ? '#3FA872' : (pct >= 0.7 ? '#D6A24B' : '#D64545');
+      barsG.innerHTML += `
+        <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="4" fill="${color}" opacity="0.9"/>
+        <text x="${x+barW/2}" y="${y-8}" fill="#E8DFC8" font-size="11" font-family="JetBrains Mono" text-anchor="middle" font-weight="700">${Math.round(pct*100)}%</text>
+      `;
+    } else {
+      barsG.innerHTML += `<rect x="${x}" y="${chartBase-3}" width="${barW}" height="3" rx="2" fill="#5B4791"/>`;
+    }
+    barsG.innerHTML += `<text x="${x+barW/2}" y="${chartBase+18}" fill="#B3A6CE" font-size="10.5" font-family="Manrope" text-anchor="middle">${d.label.slice(0,3)}</text>`;
+  });
+
+  // ---- Notas (sesión local, prototipo) ----
+  function addNote(){
+    const date = document.getElementById('noteDate').value;
+    const text = document.getElementById('noteText').value.trim();
+    if(!text) return;
+    const list = document.getElementById('noteList');
+    const empty = list.querySelector('.note-empty');
+    if(empty) empty.remove();
+    const item = document.createElement('div');
+    item.className = 'note-item';
+    item.innerHTML = `<div class="n-date">${date || 'sin fecha'}</div><div class="n-text">${text}</div>`;
+    list.prepend(item);
+    document.getElementById('noteText').value = '';
+  }
+</script>
+
+</body>
+</html>
