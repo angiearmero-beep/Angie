@@ -279,6 +279,48 @@
     padding:8px 14px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px;
   }
   .month-hint{ font-size:12.5px; color: var(--text-dim); }
+
+  /* ===== SUEÑO: LIVING SOÑADO ===== */
+  .dream-hero{
+    background: linear-gradient(135deg, #2E2050 0%, #241C40 100%);
+    border: 1px solid var(--gold);
+    border-radius: 18px;
+    max-width: 680px;
+    margin: 0 auto 32px;
+    padding: 30px 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .dream-hero .dh-title{ font-family:'Cinzel',serif; font-weight:700; font-size:26px; color:var(--gold-soft); margin-bottom:8px; }
+  .dream-hero .dh-quote{ font-style:italic; color:var(--text-dim); font-size:14px; margin-bottom:18px; }
+  .dream-hero .dh-goal{ font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--text-dim); }
+  .dream-hero .dh-goal-amount{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:28px; color:var(--gold-soft); margin:4px 0 18px; }
+  .dream-track{ height:18px; border-radius:9px; background: var(--bg-soft); border:1px solid var(--line); overflow:hidden; margin-bottom:10px; }
+  .dream-fill{ height:100%; background: linear-gradient(90deg, #3FA872, #5FC98C); transition: width .5s ease; }
+  .dream-progress-label{ font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--gold-soft); font-size:14px; }
+
+  .dream-stages{ display:flex; gap:10px; max-width:680px; margin:0 auto 24px; }
+  .dream-stage{
+    flex:1; text-align:center; padding:18px 8px; border-radius:14px;
+    background: var(--panel); border:2px solid var(--line); opacity:.45; transition: all .3s ease;
+  }
+  .dream-stage.unlocked{ opacity:1; border-color: var(--gold); background: linear-gradient(160deg, var(--panel), rgba(201,162,75,0.1)); }
+  .dream-stage.in-progress{ opacity:1; border-color: var(--violet-light); background: linear-gradient(160deg, var(--panel), rgba(155,127,232,0.1)); }
+  .dream-stage.in-progress .ds-status{ color: var(--violet-light); }
+  .dream-stage .ds-icon{ font-size:32px; margin-bottom:8px; display:block; }
+  .dream-stage .ds-month{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-dim); margin-bottom:4px; }
+  .dream-stage .ds-name{ font-size:12.5px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .dream-stage .ds-req{ font-size:10.5px; color:var(--text-dim); }
+  .dream-stage .ds-status{ font-size:10.5px; font-weight:700; margin-top:6px; }
+  .dream-stage.unlocked .ds-status{ color: var(--green); }
+  .dream-stage:not(.unlocked) .ds-status{ color: var(--text-dim); }
+  .dream-arrow{ display:flex; align-items:center; color: var(--text-dim); font-size:18px; }
+
+  .dream-table{ max-width:680px; margin: 0 auto 32px; border-collapse:collapse; width:100%; }
+  .dream-table th, .dream-table td{ padding:10px 12px; text-align:left; font-size:13px; border-bottom:1px solid var(--line); }
+  .dream-table th{ color: var(--gold-soft); font-family:'Cinzel',serif; font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+  .dream-table td{ color: var(--text); }
+  .dream-table tr.done td{ color: var(--green); }
 </style>
 </head>
 <body>
@@ -307,6 +349,7 @@
   <button class="active" data-tab="resumen">Mes en curso</button>
   <button data-tab="anual">Avance anual</button>
   <button data-tab="historial">Historial de comisiones</button>
+  <button data-tab="sueno">🏠 Sueño</button>
 </div>
 
 <div class="wrap">
@@ -594,6 +637,72 @@
 
 </div><!-- /tab-historial -->
 
+<div class="tab-panel" id="tab-sueno">
+
+  <div class="dream-hero">
+    <div class="dh-title">🏠 De mi performance a mi living soñado</div>
+    <div class="dh-quote">"En diciembre quiero estar disfrutando este espacio."</div>
+    <div class="dh-goal">Meta final</div>
+    <div class="dh-goal-amount">$10.000.000 COP</div>
+    <div class="dream-track"><div class="dream-fill" id="dreamFillBar" style="width:0%;"></div></div>
+    <div class="dream-progress-label" id="dreamProgressLabel">$0 COP / $10.000.000 COP (0%)</div>
+  </div>
+
+  <div class="dream-stages" id="dreamStages">
+    <div class="dream-stage" id="stage-ago">
+      <span class="ds-icon">🧱</span>
+      <div class="ds-month">Agosto</div>
+      <div class="ds-name">Piso nuevo</div>
+      <div class="ds-req">Top Performer ≥150%</div>
+      <div class="ds-status" id="stage-ago-status">Bloqueado</div>
+    </div>
+    <div class="dream-stage" id="stage-sep">
+      <span class="ds-icon">🌱</span>
+      <div class="ds-month">Septiembre</div>
+      <div class="ds-name">Zona verde</div>
+      <div class="ds-req">Top Performer ≥150%</div>
+      <div class="ds-status" id="stage-sep-status">Bloqueado</div>
+    </div>
+    <div class="dream-stage" id="stage-oct">
+      <span class="ds-icon">🛋️</span>
+      <div class="ds-month">Octubre</div>
+      <div class="ds-name">Decoración</div>
+      <div class="ds-req">120-149%</div>
+      <div class="ds-status" id="stage-oct-status">Bloqueado</div>
+    </div>
+    <div class="dream-stage" id="stage-nov">
+      <span class="ds-icon">📺</span>
+      <div class="ds-month">Noviembre</div>
+      <div class="ds-name">Entretenimiento</div>
+      <div class="ds-req">Top Performer ≥150%</div>
+      <div class="ds-status" id="stage-nov-status">Bloqueado</div>
+    </div>
+    <div class="dream-stage" id="stage-dic">
+      <span class="ds-icon">✨</span>
+      <div class="ds-month">Diciembre</div>
+      <div class="ds-name">Living terminado</div>
+      <div class="ds-req">110-119%</div>
+      <div class="ds-status" id="stage-dic-status">Bloqueado</div>
+    </div>
+  </div>
+
+  <table class="dream-table">
+    <tr><th>Mes</th><th>Reto</th><th>Comisión</th><th>Estado</th></tr>
+    <tr id="row-ago"><td>Agosto</td><td>≥150%</td><td>$800 USD</td><td id="row-ago-status">Pendiente</td></tr>
+    <tr id="row-sep"><td>Septiembre</td><td>≥150%</td><td>$800 USD</td><td id="row-sep-status">Pendiente</td></tr>
+    <tr id="row-oct"><td>Octubre</td><td>120-149%</td><td>$500 USD</td><td id="row-oct-status">Pendiente</td></tr>
+    <tr id="row-nov"><td>Noviembre</td><td>≥150%</td><td>$800 USD</td><td id="row-nov-status">Pendiente</td></tr>
+    <tr id="row-dic"><td>Diciembre</td><td>110-119%</td><td>$250 USD</td><td id="row-dic-status">Pendiente</td></tr>
+  </table>
+
+  <div class="callout" style="max-width:680px;margin:0 auto;">
+    ℹ️ Este sueño se financia con la <b>comisión por performance</b> del Forecast tool (Total Performance del
+    mes), no con la comisión por negocios cerrados de la pestaña "Historial". Conversión usada: <b>$1 USD ≈
+    $3.035 COP</b> (ajustable — avisame si el valor real es otro y lo corrijo).
+  </div>
+
+</div><!-- /tab-sueno -->
+
 </div><!-- /wrap -->
 
 <footer>Panel individual — Valkyria Squad · Mes en curso: Forecast julio-agosto 2026 · Histórico: Ene-Jun del Dashboard original · Última actualización manual</footer>
@@ -848,6 +957,7 @@
         m.nofit = toNum(found[col('No Fit')]) || 0;
         m.canceled = toNum(found[col('Canceled')]) || 0;
         m.fcstMtgs = toNum(found[col('Fcst Mtgs (Val+Held+Bkd)')]) || 0;
+        m.performanceCommission = toNum(found[col('Commission (USD)')]) || 0;
 
         if(parseInt(monthSelect.value) === monthsData.indexOf(m)){
           renderMonth();
@@ -856,6 +966,7 @@
         document.getElementById('monthHint').insertAdjacentHTML('afterend',
           `<div class="month-hint" style="display:block;margin-top:2px;color:var(--green);">✅ Reales de ${m.label} actualizados en vivo desde el Forecast.</div>`);
         renderQuarters();
+        renderDream();
       })
       .catch(err => console.error(`No se pudo conectar al Forecast de ${monthKey}:`, err));
   });
@@ -909,12 +1020,86 @@
   }
   renderQuarters();
 
-  // ---- Fetch en vivo de COMISIONES (Control de Comisiones BDRs — estructura de 5 tablas lado a lado) ----
-  const COMMISSIONS_CSV_URLS = {
-    jul: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=1670557767&single=true&output=csv',
-    ago: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=411606557&single=true&output=csv'
-    // sumar acá "sep", "oct", etc. cuando Angie publique la pestaña "Pago [Mes]" de cada mes nuevo
-  };
+  // ---- Sueño: "De mi performance a mi living soñado" ----
+  const EXCHANGE_RATE_COP = 3035; // USD -> COP, ajustable
+  const DREAM_GOAL_COP = 10000000;
+  const DREAM_STAGES = [
+    { key:'ago', usd:800, minPct:1.50, label:'Top Performer ≥150%', monthNum:8 },
+    { key:'sep', usd:800, minPct:1.50, label:'Top Performer ≥150%', monthNum:9 },
+    { key:'oct', usd:500, minPct:1.20, maxPct:1.50, label:'120-149%', monthNum:10 },
+    { key:'nov', usd:800, minPct:1.50, label:'Top Performer ≥150%', monthNum:11 },
+    { key:'dic', usd:250, minPct:1.10, maxPct:1.20, label:'110-119%', monthNum:12 },
+  ];
+
+  function renderDream(){
+    let totalUsdEarned = 0;
+    let anyLoaded = false;
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonthNum = today.getMonth() + 1; // 1-12
+    const isCurrentYear2026 = true; // el squad está trackeando el año 2026
+
+    DREAM_STAGES.forEach(stage => {
+      const m = monthsData.find(mm => mm.key === stage.key);
+      const stageEl = document.getElementById('stage-' + stage.key);
+      const statusEl = document.getElementById('stage-' + stage.key + '-status');
+      const rowStatusEl = document.getElementById('row-' + stage.key + '-status');
+
+      const isFuture = stage.monthNum > currentMonthNum;
+      const isCurrent = stage.monthNum === currentMonthNum;
+      const isClosed = stage.monthNum < currentMonthNum;
+
+      if(!m || m.performanceCommission === undefined){
+        if(isFuture){
+          statusEl.textContent = 'Aún no llega';
+          rowStatusEl.textContent = 'Mes futuro';
+        } else {
+          statusEl.textContent = 'Sin datos';
+          rowStatusEl.textContent = 'Sin datos aún';
+        }
+        return;
+      }
+      anyLoaded = true;
+      // Un mes "desbloquea" si ganó comisión (Commission (USD) > 0), tomamos ese valor real ganado
+      const earned = m.performanceCommission || 0;
+      totalUsdEarned += earned;
+
+      if(earned >= stage.usd){
+        stageEl.classList.add('unlocked');
+        statusEl.textContent = '✔ Desbloqueado';
+        rowStatusEl.textContent = `✔ Ganado ($${earned} USD)`;
+        rowStatusEl.parentElement.classList.add('done');
+      } else if(isCurrent){
+        // Mes en curso: todavía tiene tiempo de llegar, no marcar como fallido
+        stageEl.classList.remove('unlocked');
+        stageEl.classList.add('in-progress');
+        statusEl.textContent = '⏳ En curso';
+        rowStatusEl.textContent = earned > 0
+          ? `En curso — parcial $${earned} USD, todavía puede llegar a $${stage.usd}`
+          : 'En curso — todavía tiene tiempo de llegar a la meta';
+      } else if(isFuture){
+        stageEl.classList.remove('unlocked');
+        statusEl.textContent = 'Aún no llega';
+        rowStatusEl.textContent = 'Mes futuro';
+      } else if(earned > 0){
+        stageEl.classList.remove('unlocked');
+        statusEl.textContent = `Parcial: $${earned}`;
+        rowStatusEl.textContent = `Parcial: $${earned} USD (no llegó a $${stage.usd})`;
+      } else {
+        stageEl.classList.remove('unlocked');
+        statusEl.textContent = 'No alcanzado';
+        rowStatusEl.textContent = 'No alcanzó el reto ese mes';
+      }
+    });
+
+    const totalCop = totalUsdEarned * EXCHANGE_RATE_COP;
+    const pct = Math.min(totalCop / DREAM_GOAL_COP, 1);
+    document.getElementById('dreamFillBar').style.width = (pct * 100) + '%';
+    document.getElementById('dreamProgressLabel').textContent =
+      `$${totalCop.toLocaleString('es-CO')} COP / $10.000.000 COP (${Math.round(pct*100)}%)` +
+      (anyLoaded ? '' : ' — esperando datos de agosto en adelante');
+  }
+  renderDream();
 
   function renderCommissions(){
     const m = monthsData[monthSelect.value];
@@ -947,6 +1132,11 @@
       loadingNote.innerHTML = '⏳ Conectando con el Control de Comisiones...';
     }
   }
+
+  const COMMISSIONS_CSV_URLS = {
+    jul: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=1670557767&single=true&output=csv',
+    ago: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB6ICdXxlLB57VEv2iCUEeMU81KF5opz7MITAwKle3Z8WBPA1X5-Mo-S-xO7V-bqS3Vnqn5QWxkrO4/pub?gid=411606557&single=true&output=csv'
+  };
 
   Object.entries(COMMISSIONS_CSV_URLS).forEach(([monthKey, url]) => {
     const m = monthsData.find(mm => mm.key === monthKey);
