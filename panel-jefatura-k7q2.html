@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Valkyria Squad — Panel general</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f172a; --bg-soft:#162033; --panel:#1e293b; --panel-2:#273449; --line:#334155;
+    --accent:#5b9bd5; --accent-soft:#9cc3eb; --muted:#7d93b8;
+    --text:#e2e8f0; --text-dim:#94a3b8;
+    --green:#3fa872; --amber:#d6a24b; --red:#d64545; --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background: radial-gradient(circle at 15% 0%, #1c2a44 0%, var(--bg) 55%); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; padding-bottom:60px; }
+  a{ color:var(--accent-soft); text-decoration:none; } a:hover{ text-decoration:underline; }
+  .hero{ padding:28px 6vw 30px; border-bottom:1px solid var(--line); }
+  .crumb{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:12px; }
+  .hero h1{ font-weight:800; font-size:clamp(26px,3.6vw,38px); color:var(--accent-soft); letter-spacing:-.01em; }
+  .hero p{ margin-top:6px; color:var(--text-dim); font-size:14.5px; }
+  .wrap{ padding:32px 6vw 0; max-width:1180px; margin:0 auto; }
+  .section-title{ font-weight:700; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-soft); margin:36px 0 16px; display:flex; align-items:center; gap:10px; }
+  .section-title::after{ content:""; flex:1; height:1px; background:var(--line); }
+  .section-title:first-child{ margin-top:0; }
+
+  .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media (max-width:900px){ .kpis{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .kpis{ grid-template-columns:1fr; } }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; }
+  .card .lb{ font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--text-dim); margin-bottom:10px; }
+  .card .v{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:28px; }
+  .card .s{ font-size:12.5px; color:var(--text-dim); margin-top:6px; line-height:1.5; }
+  .g{ color:var(--green);} .a{ color:var(--amber);} .r{ color:var(--red);} .ac{ color:var(--accent-soft);}
+
+  .tw{ overflow-x:auto; }
+  table{ width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); min-width:760px; }
+  th,td{ padding:12px 14px; text-align:left; font-size:13px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  th{ background:var(--panel-2); color:var(--accent-soft); font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
+  td.n{ font-family:'JetBrains Mono',monospace; }
+  tr.sub td{ background:rgba(91,155,213,.07); font-weight:600; }
+  tr.dim td{ color:var(--text-dim); }
+  .warn{ color:var(--amber); cursor:help; }
+  .chip{ display:inline-block; min-width:52px; text-align:center; padding:3px 8px; border-radius:100px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; }
+  .chip.g{ background:rgba(63,168,114,.16); color:var(--green); }
+  .chip.a{ background:rgba(214,162,75,.16); color:var(--amber); }
+  .chip.r{ background:rgba(214,69,69,.16); color:var(--red); }
+  .chip.x{ background:var(--bg-soft); color:var(--text-dim); }
+  .bar{ height:8px; border-radius:6px; background:var(--bg-soft); min-width:120px; overflow:hidden; }
+  .bar i{ display:block; height:100%; border-radius:6px; }
+  .sem{ display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:700; }
+  .sem b{ width:9px; height:9px; border-radius:50%; background:currentColor; display:inline-block; }
+
+  .notes{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px 22px; margin-top:16px; font-size:13px; line-height:1.65; }
+  .notes b{ color:var(--accent-soft); }
+  .notes ol{ margin:8px 0 0 18px; } .notes li{ margin-bottom:6px; }
+  .ins{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  @media (max-width:760px){ .ins{ grid-template-columns:1fr; } }
+  .in{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; font-size:13.5px; line-height:1.55; }
+  .in .ic{ margin-right:6px; }
+  footer{ text-align:center; color:var(--text-dim); font-size:11.5px; padding:26px 6vw; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="crumb">Valkyria Squad · Vista de jefatura</div>
+  <h1>Panel general del squad</h1>
+  <p>Cierre del equipo por Q, promedio anual y performance por persona · Corte: septiembre 2026</p>
+</div>
+
+<div class="wrap">
+
+  <div class="section-title">Resumen del año</div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="section-title">Cierre del equipo por Q</div>
+  <div class="tw">
+    <table>
+      <tr>
+        <th>Q</th><th>Meta puntos / SQO</th><th>Cumpl. puntos / SQO</th><th>Meta pipeline</th><th>Pipeline generado</th><th>vs. meta</th><th>Cumpl. pipeline</th><th>Cierre oficial del Q</th>
+      </tr>
+      <tr>
+        <td><b>Q1</b></td><td class="n">575 pts</td><td class="n">91%</td><td class="n">$255,214</td><td class="n">$263,809</td>
+        <td class="g">Superó por $8,595 <span class="warn" title="La planilla muestra $575 en 'Falta pipeline'. $263,809 − $255,214 = +$8,595, así que parece una fórmula apuntando a la celda de puntaje.">⚠</span></td>
+        <td class="n">103%</td><td class="n" id="cQ1"></td>
+      </tr>
+      <tr>
+        <td><b>Q2</b></td><td class="n">700 pts</td><td class="n">104%</td><td class="n">$245,021</td><td class="n">$261,273</td>
+        <td class="g">Superó por $16,252</td><td class="n">107%</td><td class="n" id="cQ2"></td>
+      </tr>
+      <tr>
+        <td><b>Q3</b></td><td class="n">416 SQO</td>
+        <td class="n"><span class="warn" title="La celda 'SQOs logrado' de la planilla contiene $102,303 con formato de moneda y da 24,592% al dividir por 416. Parece un valor de pipeline en la columna de SQO, así que no se usó.">⚠ pendiente</span></td>
+        <td class="n">$356,365</td><td class="n" id="q3pipe"></td><td class="a" id="q3gap"></td><td class="n" id="q3pp"></td><td class="n" id="cQ3"></td>
+      </tr>
+      <tr class="dim">
+        <td><b>Q4</b></td><td colspan="7">Trimestre en curso: entra al promedio anual cuando cierre diciembre.</td>
+      </tr>
+      <tr class="sub">
+        <td colspan="7">Promedio anual 2026 (Q cerrados: Q1, Q2 y Q3)</td><td class="n" id="cYear"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="notes">
+    <b>Cómo leer esta tabla.</b> Q1 y Q2 se midieron por puntos y pipeline; desde julio (Q3) el esquema es SQO + pipeline. El cierre oficial es <b>Q1 103%</b> y <b>Q2 107%</b> (las columnas de cumplimiento de pipeline de la planilla; los puntos dieron 91% y 104%) y <b>Q3 70.7%</b>, el promedio de los tres meses. El promedio anual es el promedio de los Q cerrados. Tres cosas de la planilla de origen:
+    <ol>
+      <li><b>Q1, "Falta pipeline" = $575.</b> Coincide con el puntaje de la fila, no con la diferencia real (+$8,595). Mostré el valor calculado.</li>
+      <li><b>Q3, "SQOs logrado".</b> La celda guarda $102,303 en formato moneda y por eso el % sale 24,592%. No la usé, así que el cumplimiento de SQO del Q3 queda pendiente.</li>
+      <li><b>Q3, pipeline logrado $63,195.</b> Es casi solo julio ($63,788). Con los tres meses el pipeline del Q3 suma $242,752.</li>
+    </ol>
+  </div>
+
+  <div class="section-title">Cierre del equipo por mes · Q3</div>
+  <div class="tw">
+    <table id="months">
+      <tr><th>Mes</th><th>Performance del squad</th><th>Pipeline generado</th><th>Cambio vs. mes anterior</th></tr>
+    </table>
+  </div>
+
+  <div class="section-title">Performance por persona · Q3</div>
+  <div class="tw">
+    <table id="people">
+      <tr><th>#</th><th>Persona</th><th>Julio</th><th>Agosto</th><th>Septiembre</th><th>Q3</th><th></th><th>Estado</th></tr>
+    </table>
+  </div>
+  <div class="notes" style="margin-top:12px;">
+    Q3 de cada persona = promedio simple de sus meses con meta. <b>Ximena Cruz</b> se mide solo por SQO (SDR inbound). <b>Laura</b> está en rampup y empezó a prospectar en agosto. <b>Kathia</b> estuvo de licencia en agosto y ese mes no cuenta. Semáforo: verde desde 100%, ámbar entre 70% y 99%, rojo debajo de 70%.
+    El promedio simple de estas 7 personas da <b id="peopleAvg"></b>; el cierre oficial del squad (70.7%) sale de los totales del equipo en el Forecast (SQO y pipeline de todos sumados), por eso no coinciden.
+  </div>
+
+  <div class="section-title">Lectura del trimestre</div>
+  <div class="ins" id="ins"></div>
+
+</div>
+
+<footer>Panel general — Valkyria Squad · Datos al cierre de septiembre 2026 (planilla del squad + dashboards individuales)</footer>
+
+<script>
+  // ---- Cierre del squad (dato oficial) ----
+  const teamMonths = [
+    { m:'Julio',      perf:0.57, pipe:63788 },
+    { m:'Agosto',     perf:0.79, pipe:77170 },
+    { m:'Septiembre', perf:0.76, pipe:101794 },
+  ];
+  const q3Perf = teamMonths.reduce((s,x)=>s+x.perf,0) / teamMonths.length;        // 70.7%
+  const q3Pipe = teamMonths.reduce((s,x)=>s+x.pipe,0);                            // $242,752
+  const q3Meta = 356365;
+  const closes = { Q1:1.03, Q2:1.07, Q3:q3Perf };
+  const yearAvg = (closes.Q1 + closes.Q2 + closes.Q3) / 3;                        // 93.6%
+
+  const cls = v => v >= 100 ? 'g' : (v >= 70 ? 'a' : 'r');
+  const pct1 = v => (v*100).toFixed(1).replace(/\.0$/,'') + '%';
+  const money = n => '$' + Math.round(n).toLocaleString('en-US');
+  const chip = v => v === null ? '<span class="chip x">—</span>' : `<span class="chip ${cls(Math.round(v*100))}">${Math.round(v*100)}%</span>`;
+  const bold = (v) => `<b class="${cls(Math.round(v*100))}">${pct1(v)}</b>`;
+
+  // tabla Q
+  document.getElementById('cQ1').innerHTML = bold(closes.Q1);
+  document.getElementById('cQ2').innerHTML = bold(closes.Q2);
+  document.getElementById('cQ3').innerHTML = bold(closes.Q3);
+  document.getElementById('cYear').innerHTML = bold(yearAvg);
+  document.getElementById('q3pipe').textContent = money(q3Pipe);
+  document.getElementById('q3gap').textContent = 'Faltó ' + money(q3Meta - q3Pipe);
+  document.getElementById('q3pp').textContent = Math.round(q3Pipe / q3Meta * 100) + '%';
+
+  // tabla por mes
+  const mt = document.getElementById('months');
+  teamMonths.forEach((x, i) => {
+    let delta = '—';
+    if (i > 0) {
+      const dp = Math.round((x.perf - teamMonths[i-1].perf) * 100), dm = x.pipe - teamMonths[i-1].pipe;
+      delta = `<span class="${dp>=0?'g':'r'}">${dp>=0?'+':''}${dp} pts</span> · <span class="${dm>=0?'g':'r'}">${dm>=0?'+':''}${money(dm).replace('$-','-$')}</span>`;
+    }
+    mt.insertAdjacentHTML('beforeend', `<tr><td><b>${x.m}</b></td><td>${chip(x.perf)}</td><td class="n">${money(x.pipe)}</td><td>${delta}</td></tr>`);
+  });
+  mt.insertAdjacentHTML('beforeend', `<tr class="sub"><td>Q3</td><td>${bold(q3Perf)} <span style="color:var(--text-dim);font-weight:500;">promedio de los 3 meses</span></td><td class="n">${money(q3Pipe)}</td><td style="color:var(--text-dim);">suma de los 3 meses</td></tr>`);
+
+  // personas
+  const people = [
+    { n:'Laura Angel',              f:'laura.html',          r:'Centroamérica · rampup',   m:[null, 1.45, 1.35], q:140 },
+    { n:'Ximena Cruz',              f:'ximenacruz.html',     r:'HISPAM · Inbound (SDR)',   m:[0.74, 1.48, 1.74], q:132 },
+    { n:'Ximena Saavedra',          f:'ximenasaavedra.html', r:'Andina',                   m:[1.04, 0.87, 0.97], q:96  },
+    { n:'Luisa Fernanda Hernández', f:'luisa.html',          r:'Centroamérica y Caribe',   m:[0.51, 1.19, 0.57], q:76  },
+    { n:'Cathia Castillo',          f:'cathia.html',         r:'Centroamérica',            m:[0.67, 0.81, 0.68], q:72  },
+    { n:'Flor Molozaj',             f:'flor.html',           r:'México · equipo SMB',      m:[0.53, 0.84, 0.38], q:59,  tag:'🔀 Pasó al equipo SMB (con Ander)' },
+    { n:'Kathia Liñan',             f:'kathia.html',         r:'México · licencia en ago', m:[0.48, null, 0.09], q:29,  tag:'⚠️ Warning desde octubre' },
+  ];
+  const semTxt = { g:'Meta alcanzada', a:'Cerca del objetivo', r:'Bajo objetivo' };
+  const tbl = document.getElementById('people');
+  people.forEach((p, i) => {
+    const c = cls(p.q);
+    tbl.insertAdjacentHTML('beforeend',
+      `<tr><td class="n">${i+1}</td>
+        <td><a href="${p.f}"><b>${p.n}</b></a><div style="font-size:11.5px;color:var(--text-dim);">${p.r}</div></td>
+        <td>${chip(p.m[0])}</td><td>${chip(p.m[1])}</td><td>${chip(p.m[2])}</td>
+        <td><span class="chip ${c}">${p.q}%</span></td>
+        <td><div class="bar"><i style="width:${Math.min(p.q/150*100,100)}%;background:var(--${c==='g'?'green':c==='a'?'amber':'red'});"></i></div></td>
+        <td><span class="sem ${c}"><b></b>${semTxt[c]}</span>${p.tag ? `<div style="font-size:11.5px;margin-top:4px;color:var(--amber);">${p.tag}</div>` : ''}</td></tr>`);
+  });
+  const peopleAvg = people.reduce((s,p)=>s+p.q,0) / people.length;
+  document.getElementById('peopleAvg').textContent = Math.round(peopleAvg) + '%';
+
+  // KPIs
+  const nG = people.filter(p=>p.q>=100).length, low = people.filter(p=>p.q<70);
+  document.getElementById('kpis').innerHTML = `
+    <div class="card"><div class="lb">Cierre Q3 del squad</div><div class="v ${cls(Math.round(q3Perf*100))}">${pct1(q3Perf)}</div><div class="s">Promedio de los 3 meses: ${teamMonths.map(x=>Math.round(x.perf*100)+'%').join(' · ')}.</div></div>
+    <div class="card"><div class="lb">Promedio anual 2026</div><div class="v ${cls(Math.round(yearAvg*100))}">${Math.round(yearAvg*100)}%</div><div class="s">Q1 ${Math.round(closes.Q1*100)}% · Q2 ${Math.round(closes.Q2*100)}% · Q3 ${pct1(closes.Q3)}. El Q4 entra cuando cierre.</div></div>
+    <div class="card"><div class="lb">Pipeline generado Q3</div><div class="v ac">${money(q3Pipe)}</div><div class="s">${Math.round(q3Pipe/q3Meta*100)}% de la meta de ${money(q3Meta)}.</div></div>
+    <div class="card"><div class="lb">Personas en meta (Q3)</div><div class="v g">${nG} de ${people.length}</div><div class="s">Bajo 70%: ${low.map(p=>p.n.split(' ')[0]).join(' y ')}.</div></div>`;
+
+  // lectura del trimestre
+  const diffs = people.filter(p=>p.m[1]!==null && p.m[2]!==null).map(p=>({n:p.n, d:Math.round((p.m[2]-p.m[1])*100)}));
+  const up = diffs.filter(x=>x.d>0).sort((a,b)=>b.d-a.d);
+  const down = diffs.filter(x=>x.d<0).sort((a,b)=>a.d-b.d);
+  const leader = people[0];
+  const items = [
+    ['📊', `<b>Cierre del Q3: ${pct1(q3Perf)}.</b> Julio ${Math.round(teamMonths[0].perf*100)}%, agosto ${Math.round(teamMonths[1].perf*100)}% y septiembre ${Math.round(teamMonths[2].perf*100)}%. El pipeline creció cada mes (${money(teamMonths[0].pipe)} → ${money(teamMonths[2].pipe)}) y el cumplimiento bajó 3 pts en septiembre.`],
+    ['🏆', `<b>Mejor trimestre:</b> ${leader.n} con ${leader.q}% (solo cuentan agosto y septiembre, su primera cuota) y ${people[1].n} con ${people[1].q}% (solo SQO).`],
+    ['📈', up.length ? `<b>Mejoran de agosto a septiembre:</b> ${up.map(x=>`${x.n} (+${x.d} pts)`).join(', ')}.` : 'Nadie mejora de agosto a septiembre.'],
+    ['📉', down.length ? `<b>Caen de agosto a septiembre:</b> ${down.map(x=>`${x.n} (${x.d} pts)`).join(', ')}.` : 'Nadie cae de agosto a septiembre.'],
+    ['🎯', `<b>Prioridad de seguimiento:</b> ${low.map(p=>`${p.n} (${p.q}%)`).join(' y ')}. Kathia entra en warning en octubre.`],
+    ['🔀', `<b>Cambio de equipo:</b> Flor pasó al equipo SMB, con Ander.`],
+  ];
+  document.getElementById('ins').innerHTML = items.map(i=>`<div class="in"><span class="ic">${i[0]}</span>${i[1]}</div>`).join('');
+</script>
+</body>
+</html>
